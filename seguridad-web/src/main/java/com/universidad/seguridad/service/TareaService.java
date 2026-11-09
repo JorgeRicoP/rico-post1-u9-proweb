@@ -1,6 +1,7 @@
 package com.universidad.seguridad.service;
 
 import com.universidad.seguridad.model.Tarea;
+import com.universidad.seguridad.model.Usuario;
 import com.universidad.seguridad.repository.TareaRepository;
 import com.universidad.seguridad.repository.UsuarioRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,5 +35,13 @@ public class TareaService {
         t.setDescripcion(descripcion);
         t.setPropietario(usuarioRepo.getReferenceById(usuarioId));
         repo.save(t);
+    }
+
+    // Para la API JWT: el email viene del token ya validado.
+    // Solo devuelve las tareas de ese usuario.
+    public List<Tarea> listarPorEmail(String email) {
+        Usuario u = usuarioRepo.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        return repo.findByPropietarioId(u.getId());
     }
 }
