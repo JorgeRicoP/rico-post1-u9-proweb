@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Tareas</title></head>
+<body>
+<h1>Mis tareas</h1>
+
+<h3>Nueva tarea</h3>
+<form th:action="@{/tareas}" method="post">
+    <input type="text" name="titulo" placeholder="Título" maxlength="150" required />
+    <input type="text" name="descripcion" placeholder="Descripción" maxlength="500" />
+    <button type="submit">Crear</button>
+</form>
+
+<h3>Buscar por título</h3>
+<form th:action="@{/tareas}" method="get">
+    <input type="text" name="q" th:value="${q}" />
+    <button type="submit">Buscar</button>
+</form>
+<p th:if="${q != null}">Resultados para: <b th:text="${q}"></b></p>
+
+<ul>
+    <li th:each="t : ${tareas}">
+        <b th:text="${t.titulo}"></b> — <span th:text="${t.descripcion}"></span>
+    </li>
+</ul>
+<p th:if="${#lists.isEmpty(tareas)}">Sin resultados.</p>
+<p><a th:href="@{/dashboard}">Volver</a></p>
+</body>
+</html>

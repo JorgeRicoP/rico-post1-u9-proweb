@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head><meta charset="UTF-8"><title>Dashboard</title></head>
+<body>
+<h1>Dashboard</h1>
+
+<!-- SEGURO (versión final del commit): th:text escapa el contenido -->
+<p>Bienvenido, <span th:text="${nombre}"></span></p>
+<p>Correo: <span th:text="${email}"></span></p>
+<p>Roles: <span th:text="${roles}"></span></p>
+
+<!--/* INSEGURO: SOLO PARA LA PRUEBA DEL PASO 8, luego se revierte.
+<p>Bienvenido (inseguro): <span th:utext="${nombre}"></span></p>
+*/-->
+
+<p><a th:href="@{/tareas}">Mis tareas</a></p>
+
+<!-- Solo visible para ADMIN -->
+<p><a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Panel de Administración</a></p>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Cerrar Sesión</button>
+</form>
+</body>
+</html>
